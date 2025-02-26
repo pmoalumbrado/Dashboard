@@ -1,3 +1,7 @@
+import streamlit as st
+
+# Debe estar antes de cualquier otra instrucción de Streamlit
+st.set_page_config(page_title="Dashboard", layout="wide")
 
 # ==========================
 # Librerías
