@@ -649,7 +649,7 @@ if pagina_seleccionada == "Consolidado":
 ####################################################################
 # Verifica que 'pagina_seleccionada' y 'datos1' existan
 if pagina_seleccionada == "Ver por área":
-    st.markdown("<h2 class='titulo-consolidado'>CONSOLIDADO GENERAL POR ÁREA FECHA DE ACTUALIZACIÓN: 19/02/25 </h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='titulo-consolidado'>CONSOLIDADO GENERAL POR ÁREA FECHA DE ACTUALIZACIÓN: 25/02/25 </h2>", unsafe_allow_html=True)
     
     if datos1.empty:
         st.warning("No hay datos disponibles para mostrar.")
