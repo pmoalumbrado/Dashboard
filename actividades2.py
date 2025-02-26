@@ -6,17 +6,6 @@ st.set_page_config(page_title="Dashboard", layout="wide")
 # ==========================
 # Librerías
 # ==========================
-import pandas as pd
-import streamlit as st
-import plotly.express as px
-import openpyxl
-import streamlit.components.v1 as components
-import os
-import platform
-
-# Configurar título de la aplicación
-st.markdown("<h1 class='titulo-principal'>SEGUIMIENTO ACTIVIDADES Y CUMPLIMIENTO POR PROYECTO</h1>", unsafe_allow_html=True)
-
 
 import os
 import platform
@@ -27,7 +16,6 @@ import openpyxl
 import streamlit.components.v1 as components
 
 # Configuración de la página
-st.set_page_config(page_title="Dashboard", layout="wide")
 st.markdown("<h1 class='titulo-principal'>SEGUIMIENTO ACTIVIDADES Y CUMPLIMIENTO POR PROYECTO</h1>", unsafe_allow_html=True)
 
 # ==========================
