@@ -14,8 +14,6 @@ import streamlit.components.v1 as components
 import os
 import platform
 
-# Configuración de la página
-st.set_page_config(page_title="Dashboard", layout="wide")
 # Configurar título de la aplicación
 st.markdown("<h1 class='titulo-principal'>SEGUIMIENTO ACTIVIDADES Y CUMPLIMIENTO POR PROYECTO</h1>", unsafe_allow_html=True)
 
