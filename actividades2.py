@@ -16,51 +16,32 @@ st.set_page_config(page_title="Dashboard", layout="wide")
 st.markdown("<h1 class='titulo-principal'>SEGUIMIENTO ACTIVIDADES Y CUMPLIMIENTO POR PROYECTO</h1>", unsafe_allow_html=True)
 
 
+import os
+import platform
+import pandas as pd
+import streamlit as st
+import plotly.express as px
+import openpyxl
+import streamlit.components.v1 as components
+
+# Configuración de la página
+st.set_page_config(page_title="Dashboard", layout="wide")
+st.markdown("<h1 class='titulo-principal'>SEGUIMIENTO ACTIVIDADES Y CUMPLIMIENTO POR PROYECTO</h1>", unsafe_allow_html=True)
+
 # ==========================
-# Función para obtener la ruta base de archivos Excel
+# Funciones para obtener rutas (usando la raíz del repositorio)
 # ==========================
 def get_base_path():
     """
-    Retorna la ruta base de OneDrive dependiendo del sistema operativo
-    para los archivos .xlsx (Tablero de control).
-    Ajusta los nombres de usuario y rutas según tus necesidades.
+    Retorna la ruta base, asumiendo que los archivos están en la raíz del repositorio.
     """
-    # Rutas base (ajústalas a tu caso particular)
-    path_win = r"C:\Users\Stefany A. Ortiz\OneDrive - Canales y contactos\TRABAJO\Tablero de control"
-    path_mac = "/Users/alexsandraortiz/Library/CloudStorage/OneDrive-Canalesycontactos/TRABAJO/Tablero de control"
+    return os.getcwd()
 
-    # Detecta el SO
-    so = platform.system()
-
-    if so == "Windows" and os.path.exists(path_win):
-        return path_win
-    elif so == "Darwin" and os.path.exists(path_mac):
-        return path_mac
-    else:
-        # Si no se halla la ruta adecuada, devuelve None
-        return None
-
-# ==========================
-# Función para obtener la ruta base de imágenes
-# ==========================
 def get_images_path():
     """
-    Retorna la ruta base de OneDrive (o la carpeta apropiada)
-    donde se encuentran las imágenes.
-    Ajusta los nombres de usuario y rutas según tus necesidades.
+    Retorna la ruta base para imágenes, asumiendo que están en la raíz del repositorio.
     """
-    # Rutas base para las imágenes (ajústalas a tu caso particular)
-    path_win_imgs = r"C:\Users\Stefany A. Ortiz\OneDrive - Canales y contactos\Escritorio\MI TRABAJO"
-    path_mac_imgs = "/Users/alexsandraortiz/Library/CloudStorage/OneDrive-Canalesycontactos/Escritorio/MI TRABAJO"
-
-    so = platform.system()
-
-    if so == "Windows" and os.path.exists(path_win_imgs):
-        return path_win_imgs
-    elif so == "Darwin" and os.path.exists(path_mac_imgs):
-        return path_mac_imgs
-    else:
-        return None
+    return os.getcwd()
 
 # ==========================
 # Funciones para Cargar Datos
@@ -68,10 +49,6 @@ def get_images_path():
 @st.cache_data
 def datos_planner():
     base_path = get_base_path()
-    if base_path is None:
-        st.error("No se encontró la ruta de OneDrive para su sistema operativo. Verifica tus carpetas.")
-        return pd.DataFrame()
-
     ruta_actividades = os.path.join(base_path, "1. Actividades Agregadas.xlsx")
     try:
         return pd.read_excel(ruta_actividades)
@@ -79,14 +56,9 @@ def datos_planner():
         st.error(f"Archivo '1. Actividades Agregadas.xlsx' no encontrado en: {ruta_actividades}")
         return pd.DataFrame()
 
-
 @st.cache_data
 def datos_adicionales():
     base_path = get_base_path()
-    if base_path is None:
-        st.error("No se encontró la ruta de OneDrive para su sistema operativo. Verifica tus carpetas.")
-        return pd.DataFrame()
-
     ruta_datos = os.path.join(base_path, "2. Datos.xlsx")
     try:
         workbook = openpyxl.load_workbook(ruta_datos, data_only=True)
@@ -94,7 +66,7 @@ def datos_adicionales():
         columns = next(data)
         return pd.DataFrame(data, columns=columns)
     except FileNotFoundError:
-        st.error(f"Archivo '2. Datos2.xlsx' no encontrado en: {ruta_datos}")
+        st.error(f"Archivo '2. Datos.xlsx' no encontrado en: {ruta_datos}")
         return pd.DataFrame()
 
 # ==========================
@@ -104,24 +76,21 @@ datos1 = datos_planner()
 datos2 = datos_adicionales()
 
 # ==========================
-# Mostrar Logos
+# Mostrar Logos en la barra lateral
 # ==========================
-col1, col2 = st.sidebar.columns(2)  # Dividir columnas en la barra lateral
-
-# Obtenemos la ruta base para las imágenes
+col1, col2 = st.sidebar.columns(2)
 imgs_path = get_images_path()
-
 with col1:
-    if imgs_path is not None:
+    try:
         st.image(os.path.join(imgs_path, "Imagen1.png"), width=None)
-    else:
-        st.warning("No se encontró la carpeta de imágenes para tu sistema operativo.")
-
+    except Exception as e:
+        st.warning("No se encontró Imagen1.png en la raíz del proyecto.")
 with col2:
-    if imgs_path is not None:
+    try:
         st.image(os.path.join(imgs_path, "Imagen2.png"), width=None)
-    else:
-        st.warning("No se encontró la carpeta de imágenes para tu sistema operativo.")
+    except Exception as e:
+        st.warning("No se encontró Imagen2.png en la raíz del proyecto.")
+
 # ==========================
 # CSS - TEXTO
 # ==========================
