@@ -450,7 +450,7 @@ if pagina_seleccionada == "Consolidado":
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{total_luminarias_diciembre}</td>
+                        <td>{total_luminarias_diciembre:.0f}</td>
                         <td>{totales_globales['Luminarias atentidas correctivo']:.0f}</td>
                         <td>{totales_globales['Luminarias atentidas preventido']:.0f}</td>
                         <td>{totales_globales['Indice de eficiencia']:.2f}%</td>
